@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ProdukController extends Controller
 {
+    
     // Menampilkan daftar produk milik jurusan pengelola yang sedang login
     public function index()
     {
@@ -31,7 +32,7 @@ class ProdukController extends Controller
     public function create()
     {
         $jurusans = Jurusan::all();
-        return view('jurusan.produk.create', compact('jurusans'));
+        return view('produk.create', compact('jurusans'));
     }
 
     // Menampilkan halaman detail produk untuk publik
@@ -41,7 +42,7 @@ class ProdukController extends Controller
         return view('produk.detail', compact('produk'));
     }
 
-    // Menyimpan produk baru ke database
+   // Menyimpan produk baru ke database beserta gambar
     public function store(Request $request)
     {
         $request->validate([
@@ -49,10 +50,18 @@ class ProdukController extends Controller
             'harga' => 'required|numeric',
             'stok' => 'required|integer',
             'deskripsi' => 'nullable|string',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048', // Validasi file gambar maksimal 2MB
         ]);
 
         $user = Auth::user();
         $jurusanId = $user->role === 'admin' ? $request->jurusan_id : $user->jurusan_id;
+
+        $gambarPath = null;
+
+        // Cek jika ada file gambar yang di-upload
+        if ($request->hasFile('gambar')) {
+            $gambarPath = $request->file('gambar')->store('produk_images', 'public');
+        }
 
         Produk::create([
             'jurusan_id' => $jurusanId,
@@ -60,8 +69,24 @@ class ProdukController extends Controller
             'harga' => $request->harga,
             'stok' => $request->stok,
             'deskripsi' => $request->deskripsi,
+            'gambar' => $gambarPath, // Simpan path gambar ke database
         ]);
 
-        return redirect('/dashboard/produk')->with('success', 'Produk unggulan berhasil ditambahkan!');
+        return redirect('/dashboard/produk')->with('success', 'Produk unggulan beserta gambar berhasil ditambahkan!');
     }
+
+    public function destroy($id)
+{
+    $produk = Produk::findOrFail($id);
+    
+    // Hapus file gambar fisik jika ada
+    if ($produk->gambar && \Illuminate\Support\Facades\Storage::disk('public')->exists($produk->gambar)) {
+        \Illuminate\Support\Facades\Storage::disk('public')->delete($produk->gambar);
+    }
+    
+    $produk->delete();
+
+    return redirect('/dashboard')->with('success', 'Produk berhasil dihapus!');
+} 
+
 }

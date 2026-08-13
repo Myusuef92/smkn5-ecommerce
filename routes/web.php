@@ -1,43 +1,51 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProdukController;
+use App\Models\Jurusan;
+use App\Models\Produk;
 
- 
-
-// Redirect halaman utama ke login
+// Halaman Utama Publik (Sekaligus Form Login Terintegrasi)
 Route::get('/', function () {
-    return redirect('/login');
+    return view('welcome');
 });
 
-// Rute Login
+
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login-proses', [AuthController::class, 'login'])->name('login.proses');
 
-// Rute Setelah Login
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index']);
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-   
-
-// Rute Tamu (Belum Login)
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-
-// Tambahkan rute register di sini
+// Form Register & Proses Register
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'register'])->name('register.store');
 
+// Logout
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Tambahkan di dalam Route::middleware(['auth'])->group(function () { ... });
+// Rute Publik Detail Produk
+Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('produk.detail');
+
+// Rute Dashboard & Manajemen Produk (Dilindungi pengecekan Auth manual)
+Route::get('/dashboard', function () {
+    if (!Auth::check()) {
+        return redirect('/')->withErrors(['auth' => 'Silakan login terlebih dahulu.']);
+    }
+    
+    $user = Auth::user();
+    if ($user->role === 'admin') {
+        return view('dashboard.admin');
+    }
+    return view('dashboard.jurusan');
+});
+
+// Manajemen Produk
 Route::get('/dashboard/produk', [ProdukController::class, 'index']);
 Route::get('/dashboard/produk/tambah', [ProdukController::class, 'create']);
 Route::post('/dashboard/produk', [ProdukController::class, 'store'])->name('produk.store');
 
-
-// Rute Publik Detail Produk
-Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('produk.detail');
-});
+// Rute Manajemen Produk (Edit & Hapus)
+Route::delete('/dashboard/produk/hapus/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
+// (Opsional jika Anda membuat fungsi edit)
+// Route::get('/dashboard/produk/edit/{id}', [ProdukController::class, 'edit']);
+// Route::put('/dashboard/produk/update/{id}', [ProdukController::class, 'update']);
