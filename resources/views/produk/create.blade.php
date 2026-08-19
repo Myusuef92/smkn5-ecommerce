@@ -27,22 +27,28 @@
         <form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <!-- Jika yang login adalah Admin Pusat, tampilkan pilihan jurusan -->
+            <!-- Jika Admin, tampilkan pilihan jurusan. Jika Pengelola Jurusan, otomatis dikunci sesuai jurusannya -->
             @if(Auth::user()->role === 'admin')
                 <div class="form-group">
                     <label>Pilih Jurusan</label>
                     <select name="jurusan_id" class="form-control" required>
-                        <option value="">-- Pilih Konsentrasi Keahlian --</option>
-                        @foreach($jurusans as $j)
+                        <option value="">-- Pilih Jurusan --</option>
+                        @foreach(\App\Models\Jurusan::all() as $j)
                             <option value="{{ $j->id }}">{{ $j->nama_jurusan }}</option>
                         @endforeach
                     </select>
+                </div>
+            @else
+                <div class="form-group">
+                    <label>Jurusan Anda</label>
+                    <input type="text" class="form-control" value="{{ Auth::user()->jurusan->nama_jurusan ?? 'Jurusan' }}" disabled style="background: #f8fafc; font-weight: bold; color: #0f172a;">
+                    <input type="hidden" name="jurusan_id" value="{{ Auth::user()->jurusan_id }}">
                 </div>
             @endif
 
             <div class="form-group">
                 <label>Nama Produk</label>
-                <input type="text" name="nama_produk" class="form-control" required placeholder="Contoh: Aplikasi Kasir / Trainer Kit PLC">
+                <input type="text" name="nama_produk" class="form-control" required placeholder="Contoh: Aplikasi Kasir / Suku Cadang">
             </div>
 
             <div class="form-group">
@@ -52,7 +58,7 @@
 
             <div class="form-group">
                 <label>Stok</label>
-                <input type="number" name="stok" class="form-control" required placeholder="Contoh: 15">
+                <input type="number" name="stok" class="form-control" required placeholder="Contoh: 10">
             </div>
 
             <div class="form-group">

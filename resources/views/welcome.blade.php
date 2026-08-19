@@ -94,7 +94,7 @@
                 <a href="/dashboard" class="btn-auth btn-register">Dashboard Panel</a>
             @else
                 <a href="{{ route('login') }}" class="btn-auth btn-login">Login</a>
-                <a href="{{ route('register') }}" class="btn-auth btn-register">Daftar Akun</a>
+                
             @endauth
         </div>
     </header>

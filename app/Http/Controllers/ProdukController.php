@@ -42,38 +42,42 @@ class ProdukController extends Controller
         return view('produk.detail', compact('produk'));
     }
 
-   // Menyimpan produk baru ke database beserta gambar
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nama_produk' => 'required|string|max:255',
-            'harga' => 'required|numeric',
-            'stok' => 'required|integer',
-            'deskripsi' => 'nullable|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048', // Validasi file gambar maksimal 2MB
-        ]);
+   public function store(\Illuminate\Http\Request $request)
+{
+    $user = Auth::user();
 
-        $user = Auth::user();
-        $jurusanId = $user->role === 'admin' ? $request->jurusan_id : $user->jurusan_id;
+    // Otomatis tentukan jurusan_id: jika admin pakai pilihan, jika jurusan pakai ID miliknya sendiri
+    $jurusanId = ($user->role === 'admin') ? $request->jurusan_id : $user->jurusan_id;
 
-        $gambarPath = null;
-
-        // Cek jika ada file gambar yang di-upload
-        if ($request->hasFile('gambar')) {
-            $gambarPath = $request->file('gambar')->store('produk_images', 'public');
-        }
-
-        Produk::create([
-            'jurusan_id' => $jurusanId,
-            'nama_produk' => $request->nama_produk,
-            'harga' => $request->harga,
-            'stok' => $request->stok,
-            'deskripsi' => $request->deskripsi,
-            'gambar' => $gambarPath, // Simpan path gambar ke database
-        ]);
-
-        return redirect('/dashboard/produk')->with('success', 'Produk unggulan beserta gambar berhasil ditambahkan!');
+    // Pengaman jika akun jurusan belum terikat di database
+    if (!$jurusanId) {
+        $jurusanId = 1; // Default aman
     }
+
+    $request->validate([
+        'nama_produk' => 'required|string|max:255',
+        'harga' => 'required|numeric',
+        'stok' => 'required|integer',
+        'deskripsi' => 'nullable|string',
+        'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+    ]);
+
+    $gambarPath = null;
+    if ($request->hasFile('gambar')) {
+        $gambarPath = $request->file('gambar')->store('produk_images', 'public');
+    }
+
+    \App\Models\Produk::create([
+        'jurusan_id' => $jurusanId,
+        'nama_produk' => $request->nama_produk,
+        'harga' => $request->harga,
+        'stok' => $request->stok,
+        'deskripsi' => $request->deskripsi,
+        'gambar' => $gambarPath,
+    ]);
+
+    return redirect('/dashboard')->with('success', 'Produk unggulan berhasil ditambahkan!');
+}
 
     public function destroy($id)
 {

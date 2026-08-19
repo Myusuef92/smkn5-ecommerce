@@ -24,9 +24,18 @@
     </style>
 </head>
 <body>
+    @php
+        $user = Auth::user();
+        $namaJurusan = $user->jurusan ? $user->jurusan->nama_jurusan : 'Jurusan Belum Diset';
+        
+        use App\Models\Produk;
+        // Ambil produk berdasarkan jurusan_id user yang login
+        $produks = $user->jurusan_id ? Produk::where('jurusan_id', $user->jurusan_id)->get() : collect();
+    @endphp
+
     <div class="sidebar">
         <div>
-            <h2>{{ Auth::user()->jurusan->nama_jurusan ?? 'Jurusan' }}</h2>
+            <h2>{{ $namaJurusan }}</h2>
             <a href="/dashboard">Produk Jurusan Saya</a>
             <a href="/" target="_blank">Lihat Website Utama</a>
         </div>
@@ -38,7 +47,7 @@
 
     <div class="main">
         <div class="card">
-            <h1>Dashboard Produk: {{ Auth::user()->jurusan->nama_jurusan ?? 'Jurusan' }}</h1>
+            <h1>Dashboard Produk: {{ $namaJurusan }}</h1>
             <p style="font-size: 13px; color: #64748b; margin-bottom: 15px;">Anda hanya dapat melihat dan mengelola produk unggulan dari jurusan Anda sendiri.</p>
 
             @if(session('success'))
@@ -58,11 +67,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php 
-                        use App\Models\Produk; 
-                        // Ambil produk HANYA yang sesuai dengan jurusan user yang sedang login
-                        $produks = Produk::where('jurusan_id', Auth::user()->jurusan_id)->get(); 
-                    @endphp
                     @forelse($produks as $index => $p)
                         <tr>
                             <td>{{ $index + 1 }}</td>
@@ -80,7 +84,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" style="text-align: center; color: #64748b;">Belum ada produk untuk jurusan ini.</td>
+                            <td colspan="5" style="text-align: center; color: #64748b;">Belum ada produk untuk jurusan ini. Pastikan akun Anda memiliki `jurusan_id` di database.</td>
                         </tr>
                     @endforelse
                 </tbody>
