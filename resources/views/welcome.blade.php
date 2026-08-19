@@ -76,7 +76,8 @@
     <!-- Header Atas -->
     <header class="header-top">
          <div class="logo-area">
-    <img src="{{ asset('images/LogoSMKN5.jpg') }}"  style="height: 45px; width: auto; object-fit: contain;">
+    <img src="{{ asset('images/LogoSMKN5.png
+    ') }}"  style="height: 45px; width: auto; object-fit: contain;">
     <div class="logo-text">
         <h1>SMKN 5 KAB. TANGERANG</h1>
         <span>E-Commerce Teaching Factory</span>
