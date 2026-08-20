@@ -56,7 +56,7 @@
             <div style="font-size: 13px; font-weight: 600; color: #1e293b; margin-bottom: 5px;">Deskripsi / Spesifikasi:</div>
             <div class="desc">{{ $produk->deskripsi ?? 'Tidak ada deskripsi produk.' }}</div>
 
-            <a href="https://wa.me/?text=Halo,%20saya%20tertarik%20untuk%20memesan%20produk%20{{ urlencode($produk->nama_produk) }}%20seharga%20Rp%20{{ number_format($produk->harga, 0, ',', '.') }}%20dari%20Unit%20Produksi%20SMKN%205%20Kab.%20Tangerang." target="_blank" class="btn-order">
+            <a href="https://wa.me/6285819859297?text=Halo,%20saya%20tertarik%20untuk%20memesan%20produk%20{{ urlencode($produk->nama_produk) }}%20seharga%20Rp%20{{ number_format($produk->harga, 0, ',', '.') }}%20dari%20Unit%20Produksi%20SMKN%205%20Kab.%20Tangerang." target="_blank" class="btn-order">
                 Pesan via WhatsApp / Hubungi Unit Produksi
             </a>
             

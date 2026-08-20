@@ -51,7 +51,72 @@
         .sub-nav a:hover { color: #e60012; border-bottom-color: #e60012; }
 
         /* Layout Utama Grid */
-        .main-container { max-width: 1300px; margin: 20px auto; padding: 0 20px; display: grid; grid-template-columns: 260px 1fr; gap: 20px; }
+        .main-container { 
+            width: 95%; 
+            max-width: 1600px; 
+            margin: 20px auto; 
+            padding: 0 10px; 
+            display: grid; 
+            grid-template-columns: 280px 1fr; 
+            gap: 25px; 
+        }
+        
+        /* Sidebar Kategori Jurusan */
+        .sidebar { 
+            background: #ffffff; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 4px; 
+            overflow: hidden; 
+            height: fit-content; 
+        }
+        .sidebar-title { 
+            background: #1e293b; 
+            color: white; 
+            padding: 12px 15px; 
+            font-size: 12px; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+        }
+        .sidebar ul { list-style: none; }
+        .sidebar li a { 
+            display: block; 
+            padding: 10px 15px; 
+            font-size: 12px; 
+            color: #334155; 
+            text-decoration: none; 
+            border-bottom: 1px solid #f1f5f9; 
+        }
+        .sidebar li a:hover { background: #f8fafc; color: #e60012; padding-left: 18px; }
+
+        /* Grid Katalog Produk agar Memenuhi Layar Lebar */
+        .product-grid-area { width: 100%; }
+        .product-grid-area h2 { 
+            font-size: 16px; 
+            font-weight: 800; 
+            color: #0f172a; 
+            margin-bottom: 15px; 
+            border-bottom: 2px solid #e60012; 
+            padding-bottom: 5px; 
+            display: inline-block; 
+        }
+        
+        .product-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+            gap: 20px; 
+        }
+        
+        .product-card { 
+            background: white; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 4px; 
+            padding: 12px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            transition: box-shadow 0.2s; 
+        }
+        .product-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
         
         /* Sidebar Kategori Jurusan */
         .sidebar { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; overflow: hidden; height: fit-content; }
