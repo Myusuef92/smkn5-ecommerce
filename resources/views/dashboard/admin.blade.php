@@ -28,7 +28,9 @@
         <div>
             <h2>Admin Pusat</h2>
             <a href="/dashboard">Kelola Semua Produk</a>
+            <a href="/dashboard/register-jurusan">+ Buat Akun Jurusan Baru</a>
             <a href="/" target="_blank">Lihat Website Utama</a>
+            
         </div>
         <form action="{{ route('logout') }}" method="POST">
             @csrf
@@ -51,7 +53,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Jurusan</th>
+                        <th>Foto</th>
                         <th>Nama Produk</th>
                         <th>Harga</th>
                         <th>Stok</th>
@@ -59,11 +61,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php use App\Models\Produk; $produks = Produk::with('jurusan')->get(); @endphp
                     @forelse($produks as $index => $p)
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td><strong>{{ $p->jurusan->nama_jurusan ?? '-' }}</strong></td>
+                            <td>
+                                @if($p->gambar)
+                                    <img src="{{ asset('storage/' . $p->gambar) }}" alt="Foto" style="width: 45px; height: 45px; object-fit: cover; border-radius: 4px; border: 1px solid #cbd5e1;">
+                                @else
+                                    <span style="font-size: 10px; color: #94a3b8;">Tidak ada</span>
+                                @endif
+                            </td>
                             <td>{{ $p->nama_produk }}</td>
                             <td>Rp {{ number_format($p->harga, 0, ',', '.') }}</td>
                             <td>{{ $p->stok }}</td>
@@ -78,7 +85,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" style="text-align: center; color: #64748b;">Belum ada produk yang terdaftar.</td>
+                            <td colspan="6" style="text-align: center; color: #64748b; padding: 20px;">Belum ada produk untuk jurusan ini.</td>
                         </tr>
                     @endforelse
                 </tbody>

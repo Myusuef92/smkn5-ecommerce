@@ -26,10 +26,9 @@
 <body>
     @php
         $user = Auth::user();
-        $namaJurusan = $user->jurusan ? $user->jurusan->nama_jurusan : 'Jurusan Belum Diset';
+        $namaJurusan = ($user->jurusan) ? $user->jurusan->nama_jurusan : 'Jurusan Belum Diset di Database';
         
         use App\Models\Produk;
-        // Ambil produk berdasarkan jurusan_id user yang login
         $produks = $user->jurusan_id ? Produk::where('jurusan_id', $user->jurusan_id)->get() : collect();
     @endphp
 
@@ -48,7 +47,7 @@
     <div class="main">
         <div class="card">
             <h1>Dashboard Produk: {{ $namaJurusan }}</h1>
-            <p style="font-size: 13px; color: #64748b; margin-bottom: 15px;">Anda hanya dapat melihat dan mengelola produk unggulan dari jurusan Anda sendiri.</p>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 15px;">Kelola produk unggulan khusus untuk jurusan Anda.</p>
 
             @if(session('success'))
                 <div class="alert-success">{{ session('success') }}</div>
@@ -56,10 +55,11 @@
 
             <a href="/dashboard/produk/tambah" class="btn btn-add">+ Tambah Produk Jurusan</a>
 
-            <table>
+<table>
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Foto</th>
                         <th>Nama Produk</th>
                         <th>Harga</th>
                         <th>Stok</th>
@@ -70,6 +70,13 @@
                     @forelse($produks as $index => $p)
                         <tr>
                             <td>{{ $index + 1 }}</td>
+                            <td>
+                                @if($p->gambar)
+                                    <img src="{{ asset('storage/' . $p->gambar) }}" alt="Foto" style="width: 45px; height: 45px; object-fit: cover; border-radius: 4px; border: 1px solid #cbd5e1;">
+                                @else
+                                    <span style="font-size: 10px; color: #94a3b8;">Tidak ada</span>
+                                @endif
+                            </td>
                             <td>{{ $p->nama_produk }}</td>
                             <td>Rp {{ number_format($p->harga, 0, ',', '.') }}</td>
                             <td>{{ $p->stok }}</td>
@@ -84,7 +91,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" style="text-align: center; color: #64748b;">Belum ada produk untuk jurusan ini. Pastikan akun Anda memiliki `jurusan_id` di database.</td>
+                            <td colspan="6" style="text-align: center; color: #64748b; padding: 20px;">Belum ada produk untuk jurusan ini.</td>
                         </tr>
                     @endforelse
                 </tbody>

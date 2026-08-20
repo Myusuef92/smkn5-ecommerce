@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProdukController;
-use App\Models\Jurusan;
+use App\Models\Jurusan ;
 use App\Models\Produk;
 
 // Halaman Utama Publik (Sekaligus Form Login Terintegrasi)
@@ -16,9 +16,15 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login-proses', [AuthController::class, 'login'])->name('login.proses');
 
-// Form Register & Proses Register
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.store');
+
+//Registrasi Jurusan (Hanya untuk Admin)
+Route::middleware(['auth'])->group(function () {
+Route::get('/dashboard/register-jurusan', function () {
+        return view('admin.register-jurusan');
+    });
+    
+Route::post('/dashboard/register-jurusan', [AuthController::class, 'storeJurusanAccount'])->name('admin.store-jurusan');
+});
 
 // Logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -43,7 +49,10 @@ Route::get('/dashboard', function () {
 Route::get('/dashboard/produk', [ProdukController::class, 'index']);
 Route::get('/dashboard/produk/tambah', [ProdukController::class, 'create']);
 Route::post('/dashboard/produk', [ProdukController::class, 'store'])->name('produk.store');
-
+Route::middleware(['auth'])->group(function () {
+Route::get('/dashboard/produk/edit/{id}', [ProdukController::class, 'edit']);
+Route::put('/dashboard/produk/update/{id}', [ProdukController::class, 'update'])->name('produk.update');
+});
 // Rute Manajemen Produk (Edit & Hapus)
 Route::delete('/dashboard/produk/hapus/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
 // (Opsional jika Anda membuat fungsi edit)

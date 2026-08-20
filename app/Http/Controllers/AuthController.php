@@ -45,28 +45,25 @@ class AuthController extends Controller
     }
 
     // 3. Memproses Data Pendaftaran (Register)
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-            'jurusan_id' => ['required', 'exists:jurusans,id'],
-        ]);
+  public function storeJurusanAccount(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'jurusan_id' => 'required',
+        'password' => 'required|min:6',
+    ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'pengelola_jurusan', // Default sebagai pengelola jurusan
-            'jurusan_id' => $request->jurusan_id,
-        ]);
+    \App\Models\User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'role' => 'jurusan',
+        'jurusan_id' => $request->jurusan_id, // Pastikan variabel ini ikut disimpan
+        'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+    ]);
 
-        // Langsung login otomatis setelah daftar berhasil
-        Auth::login($user);
-
-        return redirect('/dashboard')->with('success', 'Akun berhasil didaftarkan!');
-    }
+    return back()->with('success', 'Akun pengelola jurusan berhasil dibuat!');
+}
 
     // 4. Memproses Logout
     public function logout(Request $request)

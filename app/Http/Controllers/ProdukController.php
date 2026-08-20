@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Produk;
 use App\Models\Jurusan;
@@ -92,5 +91,52 @@ class ProdukController extends Controller
 
     return redirect('/dashboard')->with('success', 'Produk berhasil dihapus!');
 } 
+
+// Menampilkan halaman form edit produk
+    public function edit($id)
+    {
+        $produk = \App\Models\Produk::findOrFail($id);
+        $jurusans = \App\Models\Jurusan::all();
+        
+        // Ubah dari 'produk.edit' menjadi 'admin.produk.edit'
+        return view('admin.produk.edit', compact('produk', 'jurusans'));
+    }
+
+    // Memproses perubahan data produk
+    public function update(\Illuminate\Http\Request $request, $id)
+    {
+        $produk = \App\Models\Produk::findOrFail($id);
+
+        $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'harga' => 'required|numeric',
+            'stok' => 'required|integer',
+            'deskripsi' => 'nullable|string',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $jurusanId = ($user->role === 'admin') ? $request->jurusan_id : $produk->jurusan_id;
+
+        $gambarPath = $produk->gambar;
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama jika ada
+            if ($produk->gambar && \Illuminate\Support\Facades\Storage::disk('public')->exists($produk->gambar)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($produk->gambar);
+            }
+            $gambarPath = $request->file('gambar')->store('produk_images', 'public');
+        }
+
+        $produk->update([
+            'jurusan_id' => $jurusanId,
+            'nama_produk' => $request->nama_produk,
+            'harga' => $request->harga,
+            'stok' => $request->stok,
+            'deskripsi' => $request->deskripsi,
+            'gambar' => $gambarPath,
+        ]);
+
+        return redirect('/dashboard')->with('success', 'Produk unggulan berhasil diperbarui!');
+    }
 
 }
