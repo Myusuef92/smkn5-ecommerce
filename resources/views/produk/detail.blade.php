@@ -4,25 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $produk->nama_produk }} - E-Commerce SMK Negeri 5 Kab. Tangerang</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f4f6f8; color: #333; }
-        .top-bar { background: #e60012; color: #ffffff; font-size: 11px; padding: 6px 30px; font-weight: 500; }
-        header { background: #ffffff; border-bottom: 2px solid #e2e8f0; padding: 12px 30px; display: flex; align-items: center; justify-content: space-between; }
-        .logo-area h1 { font-size: 16px; color: #1e293b; font-weight: 800; text-transform: uppercase; }
-        .logo-area span { font-size: 11px; color: #e60012; font-weight: 700; display: block; }
-        
-        .container { max-width: 900px; margin: 30px auto; background: white; padding: 30px; border-radius: 6px; border: 1px solid #cbd5e1; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .product-badge { background: #fee2e2; color: #991b1b; font-size: 11px; padding: 4px 8px; border-radius: 3px; width: fit-content; font-weight: 600; margin-bottom: 12px; display: inline-block; }
-        h2 { font-size: 20px; color: #1e293b; margin-bottom: 10px; }
-        .price { font-size: 22px; font-weight: 700; color: #e60012; margin-bottom: 15px; }
-        .desc { font-size: 13px; color: #64748b; line-height: 1.6; margin-bottom: 20px; }
-        .stock { font-size: 13px; font-weight: 600; color: #16a34a; margin-bottom: 20px; }
-        
-        .btn-order { background: #25d366; color: white; border: none; padding: 12px; border-radius: 4px; font-size: 14px; font-weight: 700; cursor: pointer; width: 100%; text-align: center; text-decoration: none; display: block; }
-        .btn-order:hover { background: #20ba5a; }
-        .back-link { display: inline-block; margin-top: 15px; font-size: 13px; color: #64748b; text-decoration: none; }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    
 </head>
 <body>
 

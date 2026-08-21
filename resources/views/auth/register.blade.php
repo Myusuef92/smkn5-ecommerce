@@ -4,23 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Pengelola Jurusan - SMK Negeri 5 Kab. Tangerang</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
-        .card { background: #ffffff; max-width: 450px; width: 100%; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0; }
-        .header { text-align: center; margin-bottom: 25px; }
-        .header h1 { font-size: 20px; color: #1e293b; font-weight: 700; margin-bottom: 5px; }
-        .header p { font-size: 13px; color: #64748b; }
-        .alert-error { background-color: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 10px; font-size: 13px; border-radius: 6px; margin-bottom: 15px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 6px; }
-        .form-control { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
-        .form-control:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-        .btn-submit { width: 100%; padding: 10px; background-color: #ea580c; color: #ffffff; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 5px; }
-        .btn-submit:hover { background-color: #c2410c; }
-        .footer { margin-top: 20px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 15px; }
-        .footer a { color: #2563eb; text-decoration: none; font-weight: 600; }
-    </style>
+    
 </head>
 <body>
 

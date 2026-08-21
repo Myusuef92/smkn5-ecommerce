@@ -13,9 +13,9 @@ Route::get('/', function () {
 });
 
 
+// Menampilkan halaman login
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login-proses', [AuthController::class, 'login'])->name('login.proses');
-
+Route::post('/login', [AuthController::class, 'login']);
 
 //Registrasi Jurusan (Hanya untuk Admin)
 Route::middleware(['auth'])->group(function () {
@@ -39,11 +39,16 @@ Route::get('/dashboard', function () {
     }
     
     $user = Auth::user();
+    
     if ($user->role === 'admin') {
-        return view('dashboard.admin');
+        $produks = Produk::all();
+        return view('dashboard.admin', compact('produks'));
     }
-    return view('dashboard.jurusan');
-});
+    
+    // PERBAIKAN DI SINI: Ambil produk berdasarkan jurusan milik user yang sedang login
+    $produks = Produk::where('jurusan_id', $user->jurusan_id)->get();
+    return view('dashboard.jurusan', compact('produks'));
+})->middleware('auth');
 
 // Manajemen Produk
 Route::get('/dashboard/produk', [ProdukController::class, 'index']);
@@ -52,9 +57,7 @@ Route::post('/dashboard/produk', [ProdukController::class, 'store'])->name('prod
 Route::middleware(['auth'])->group(function () {
 Route::get('/dashboard/produk/edit/{id}', [ProdukController::class, 'edit']);
 Route::put('/dashboard/produk/update/{id}', [ProdukController::class, 'update'])->name('produk.update');
-});
-// Rute Manajemen Produk (Edit & Hapus)
 Route::delete('/dashboard/produk/hapus/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
-// (Opsional jika Anda membuat fungsi edit)
-// Route::get('/dashboard/produk/edit/{id}', [ProdukController::class, 'edit']);
-// Route::put('/dashboard/produk/update/{id}', [ProdukController::class, 'update']);
+
+});
+
