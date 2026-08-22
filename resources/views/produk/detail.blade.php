@@ -2,50 +2,41 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $produk->nama_produk }} - E-Commerce SMK Negeri 5 Kab. Tangerang</title>
+    <title>{{ $produk->nama_produk }} - SMKN 5 Kab. Tangerang</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    
 </head>
-<body>
+<body class="center-page">
 
-    <div class="top-bar">
-        <span>Detail Produk Unggulan - Unit Produksi SMK Negeri 5 Kab. Tangerang</span>
-    </div>
-
-    <header>
-        <div class="logo-area">
-            <h1>SMKN 5 KAB. TANGERANG</h1>
-            <span>E-Commerce Teaching Factory</span>
-        </div>
+    <div class="form-card" style="max-width: 800px; display: grid; grid-template-columns: 1fr 1fr; gap: 25px; align-items: center;">
+        
+        <!-- Kolom Gambar -->
         <div>
-            <a href="/" style="font-size: 13px; color: #e60012; font-weight: 600; text-decoration: none;">&larr; Kembali ke Beranda</a>
-        </div>
-    </header>
-
-    <div class="container">
-        <div>
-            <div style="background: #f1f5f9; height: 300px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-weight: 600; text-align: center; padding: 20px;">
-                [ Gambar Produk Unggulan Jurusan ]
-            </div>
+            @if($produk->gambar)
+                <img src="{{ asset('storage/' . $produk->gambar) }}" alt="Foto" style="width: 100%; height: 260px; object-fit: cover; border-radius: 6px;">
+            @else
+                <div style="background: #e2e8f0; height: 260px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #64748b; border-radius: 6px;">Tidak Ada Foto</div>
+            @endif
         </div>
 
+        <!-- Kolom Informasi Produk & Tombol WhatsApp -->
         <div>
-            <span class="product-badge">{{ $produk->jurusan->nama_jurusan ?? 'Umum' }}</span>
-            <h2>{{ $produk->nama_produk }}</h2>
-            <div class="price">Rp {{ number_format($produk->harga, 0, ',', '.') }}</div>
-            <div class="stock">Stok Tersedia: {{ $produk->stok }} pcs</div>
+            <span class="badge-jurusan">{{ $produk->jurusan->nama_jurusan ?? 'Umum' }}</span>
+            <h2 style="font-size: 17px; margin-bottom: 8px; color: #1e293b;">{{ $produk->nama_produk }}</h2>
+            <div class="product-price" style="font-size: 18px; margin-bottom: 10px;">Rp {{ number_format($produk->harga, 0, ',', '.') }}</div>
+            <p style="font-size: 12px; color: #64748b; margin-bottom: 15px; line-height: 1.5;">{{ $produk->deskripsi ?? 'Tidak ada deskripsi produk.' }}</p>
+            <p style="font-size: 12px; font-weight: 600; color: #16a34a; margin-bottom: 20px;">Stok Tersedia: {{ $produk->stok }} pcs</p>
+
+            <!-- Tombol Pesan WhatsApp Otomatis -->
+            @php
+                $noWa = "6281234567890"; // Ganti dengan nomor WhatsApp Admin/Jurusan Anda
+                $pesan = "Halo, saya tertarik untuk memesan produk *{$produk->nama_produk}* seharga Rp " . number_format($produk->harga, 0, ',', '.') . " apakah stoknya masih ada?";
+                $linkWa = "https://wa.me/{$noWa}?text=" . urlencode($pesan);
+            @endphp
             
-            <div style="font-size: 13px; font-weight: 600; color: #1e293b; margin-bottom: 5px;">Deskripsi / Spesifikasi:</div>
-            <div class="desc">{{ $produk->deskripsi ?? 'Tidak ada deskripsi produk.' }}</div>
-
-            <a href="https://wa.me/6285819859297?text=Halo,%20saya%20tertarik%20untuk%20memesan%20produk%20{{ urlencode($produk->nama_produk) }}%20seharga%20Rp%20{{ number_format($produk->harga, 0, ',', '.') }}%20dari%20Unit%20Produksi%20SMKN%205%20Kab.%20Tangerang." target="_blank" class="btn-order">
-                Pesan via WhatsApp / Hubungi Unit Produksi
-            </a>
-            
-            <br>
-            <a href="/" class="back-link">&larr; Lanjutkan Belanja</a>
+            <a href="{{ $linkWa }}" target="_blank" class="btn-submit" style="background: #25d366; text-align: center; text-decoration: none; display: block; margin-bottom: 10px; padding: 10px; border-radius: 4px; color: white; font-weight: bold; font-size: 13px;">Pesan via WhatsApp</a>
+            <a href="/" class="back-link" style="text-align: center; display: block;">&larr; Kembali ke Beranda</a>
         </div>
+
     </div>
 
 </body>

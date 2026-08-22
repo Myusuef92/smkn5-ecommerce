@@ -5,62 +5,64 @@
     <title>Tambah Produk - SMKN 5 Kab. Tangerang</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
-<body>
+<body class="center-page">
 
-    <div class="form-card">
+    <div class="form-card" style="max-width: 500px; width: 100%;">
         <h2>Tambah Produk Unggulan</h2>
+        <p style="font-size: 12px; color: #64748b; margin-bottom: 20px;">Masukkan data produk karya siswa Teaching Factory.</p>
 
-        <form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-
-            <!-- Jika Admin, tampilkan pilihan jurusan. Jika Pengelola Jurusan, otomatis dikunci sesuai jurusannya -->
-            @if(Auth::user()->role === 'admin')
-                <div class="form-group">
-                    <label>Pilih Jurusan</label>
-                    <select name="jurusan_id" class="form-control" required>
-                        <option value="">-- Pilih Jurusan --</option>
-                        @foreach(\App\Models\Jurusan::all() as $j)
-                            <option value="{{ $j->id }}">{{ $j->nama_jurusan }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            @else
-                <div class="form-group">
-                    <label>Jurusan Anda</label>
-                    <input type="text" class="form-control" value="{{ Auth::user()->jurusan->nama_jurusan ?? 'Jurusan' }}" disabled style="background: #f8fafc; font-weight: bold; color: #0f172a;">
-                    <input type="hidden" name="jurusan_id" value="{{ Auth::user()->jurusan_id }}">
-                </div>
-            @endif
-
-            <div class="form-group">
-                <label>Nama Produk</label>
-                <input type="text" name="nama_produk" class="form-control" required placeholder="Contoh: Aplikasi Kasir / Suku Cadang">
+        @if($errors->any())
+            <div style="background: #fee2e2; color: #b91c1c; padding: 10px; border-radius: 4px; font-size: 12px; margin-bottom: 15px;">
+                {{ $errors->first() }}
             </div>
+        @endif
 
-            <div class="form-group">
-                <label>Harga (Rp)</label>
-                <input type="number" name="harga" class="form-control" required placeholder="Contoh: 250000">
-            </div>
+        <form action="/tambah-produk" method="POST" enctype="multipart/form-data">
+    @csrf
+    
+    <div class="form-group" style="margin-bottom: 15px;">
+        <label>Nama Produk</label>
+        <input type="text" name="nama_produk" class="form-control" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px;">
+    </div>
 
-            <div class="form-group">
-                <label>Stok</label>
-                <input type="number" name="stok" class="form-control" required placeholder="Contoh: 10">
-            </div>
+    <!-- Dropdown Jurusan Hanya Tampil Jika yang Login Admin -->
+    @if(Auth::user()->role === 'admin')
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label>Kompetensi Keahlian (Jurusan)</label>
+            <select name="jurusan_id" class="form-control" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px; background: white;">
+                <option value="">-- Pilih Jurusan --</option>
+                @foreach($jurusans as $j)
+                    <option value="{{ $j->id }}">{{ $j->nama_jurusan }}</option>
+                @endforeach
+            </select>
+        </div>
+    @endif
 
-            <div class="form-group">
-                <label>Deskripsi Produk</label>
-                <textarea name="deskripsi" class="form-control" placeholder="Tuliskan spesifikasi produk..."></textarea>
-            </div>
+    <div class="form-group" style="margin-bottom: 15px;">
+        <label>Harga (Rp)</label>
+        <input type="number" name="harga" class="form-control" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px;">
+    </div>
 
-            <div class="form-group">
-                <label>Foto Produk (Opsional)</label>
-                <input type="file" name="gambar" accept="image/*" style="font-size: 12px;">
-            </div>
+    <div class="form-group" style="margin-bottom: 15px;">
+        <label>Stok</label>
+        <input type="number" name="stok" class="form-control" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px;">
+    </div>
 
-            <button type="submit" class="btn-submit">Simpan Produk</button>
-        </form>
+    <div class="form-group" style="margin-bottom: 15px;">
+        <label>Deskripsi</label>
+        <textarea name="deskripsi" class="form-control" rows="3" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px;"></textarea>
+    </div>
 
-        <a href="/dashboard" class="back-link">&larr; Kembali ke Dashboard</a>
+    <div class="form-group" style="margin-bottom: 20px;">
+        <label>Foto Produk</label>
+        <input type="file" name="gambar" class="form-control" accept="image/*">
+    </div>
+
+    <button type="submit" style="width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Simpan Produk</button>
+</form>
+        <div style="text-align: center; margin-top: 15px;">
+            <a href="/dashboard" class="back-link" style="font-size: 12px; color: #2563eb; text-decoration: none;">&larr; Kembali ke Dashboard</a>
+        </div>
     </div>
 
 </body>

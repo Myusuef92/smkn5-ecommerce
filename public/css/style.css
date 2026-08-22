@@ -40,7 +40,7 @@ body {
 
 .logo-text span {
     font-size: 11px;
-    color: #e60012;
+    color: #3226dc;
     font-weight: 700;
     text-transform: uppercase;
 }
@@ -48,7 +48,7 @@ body {
 .search-bar {
     display: flex;
     width: 45%;
-    border: 2px solid #e60012;
+    border: 2px solid #3226dc;
     border-radius: 4px;
     overflow: hidden;
 }
@@ -62,7 +62,7 @@ body {
 }
 
 .search-bar button {
-    background: #e60012;
+    background: #3226dc;
     color: white;
     border: none;
     padding: 0 20px;
@@ -90,7 +90,7 @@ body {
 }
 
 .btn-register {
-    background: #e60012;
+    background: #3226dc;
     color: white;
 }
 
@@ -115,8 +115,8 @@ body {
 }
 
 .sub-nav a:hover {
-    color: #e60012;
-    border-bottom-color: #e60012;
+    color: #3226dc;
+    border-bottom-color: #3226dc;
 }
 
 /* Layout Utama Grid (Welcome Page) */
@@ -163,7 +163,7 @@ body {
 
 .sidebar li a:hover {
     background: #f8fafc;
-    color: #e60012;
+    color: #3226dc;
     padding-left: 18px;
 }
 
@@ -177,7 +177,7 @@ body {
     font-weight: 800;
     color: #0f172a;
     margin-bottom: 15px;
-    border-bottom: 2px solid #e60012;
+    border-bottom: 2px solid #3226dc;
     padding-bottom: 5px;
     display: inline-block;
 }
@@ -206,7 +206,7 @@ body {
 .badge-jurusan {
     display: inline-block;
     background: #fef2f2;
-    color: #dc2626;
+    color: #3226dc;
     font-size: 10px;
     font-weight: 700;
     padding: 3px 6px;
@@ -226,14 +226,14 @@ body {
 .product-price {
     font-size: 15px;
     font-weight: 800;
-    color: #dc2626;
+    color: #3226dc;
     margin-bottom: 12px;
 }
 
-.btn-pesan {
+.btn-detail {
     display: block;
     text-align: center;
-    background: #e60012;
+    background: #3226dc;
     color: white;
     padding: 7px;
     border-radius: 4px;
@@ -339,7 +339,7 @@ th {
 }
 
 .btn-add {
-    background: #e60012;
+    background: #3226dc;
     color: white;
     margin-bottom: 15px;
     display: inline-block;
@@ -351,7 +351,7 @@ th {
 }
 
 .btn-delete {
-    background: #dc2626;
+    background: #ec0505;
     color: white;
 }
 
@@ -444,7 +444,7 @@ th {
 }
 
 .form-control:focus {
-    border-color: #e60012;
+    border-color: #3226dc;
 }
 
 textarea.form-control {
@@ -453,7 +453,7 @@ textarea.form-control {
 }
 
 .btn-submit {
-    background: #e60012;
+    background: #3226dc;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -465,7 +465,7 @@ textarea.form-control {
 }
 
 .btn-submit:hover {
-    background: #c5000f;
+    background: #3226dc;
 }
 
 .back-link {
@@ -478,7 +478,7 @@ textarea.form-control {
 }
 
 .back-link:hover {
-    color: #e60012;
+    color: #3226dc;
 }
 
 .alert-error {

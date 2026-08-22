@@ -5,7 +5,7 @@
     <title>Dashboard Jurusan - SMKN 5 Kab. Tangerang</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
-<body class="admin-body"> <!-- Gunakan class admin-body agar ada sidebar kiri -->
+<body class="admin-body"> 
 
     <!-- SIDEBAR KIRI -->
     <div class="admin-sidebar">
@@ -18,7 +18,7 @@
         <div>
             <form action="/logout" method="POST">
                 @csrf
-                <button type="submit" style="color: #f87171; font-weight: bold;">Logout Sistem</button>
+                <button type="submit" style="color: #f87171; font-weight: bold; background: none; border: none; cursor: pointer; padding: 0;">Logout Sistem</button>
             </form>
         </div>
     </div>
@@ -33,7 +33,7 @@
                 <div class="alert-success">{{ session('success') }}</div>
             @endif
 
-            <a href="/dashboard/produk/tambah" class="btn btn-add">+ Tambah Produk Jurusan</a>
+            <<a href="/tambah-produk" class="btn btn-add">+ Tambah Produk Baru</a>
 
             <table>
                 <thead>
